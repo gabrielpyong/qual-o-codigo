@@ -5,12 +5,12 @@ import { chambers } from "@/constants/chambers";
 import { ChamberCode, Product, ProductInput } from "@/types/product";
 
 const emptyProduct: ProductInput = { name: "", code: "", tare: 0, chamber: "D1", imageUrl: "" };
-interface ProductFormProps { product?: Product; onSave: (input: ProductInput) => void; onCancel: () => void; onDelete?: () => void; }
+interface ProductFormProps { product?: Product; onSave: (input: ProductInput) => void | Promise<void>; onCancel: () => void; onDelete?: () => void; }
 
 export function ProductForm({ product, onSave, onCancel, onDelete }: ProductFormProps) {
   const [values, setValues] = useState<ProductInput>(product ? { name: product.name, code: product.code, tare: product.tare, chamber: product.chamber, imageUrl: product.imageUrl ?? "" } : emptyProduct);
   const update = <K extends keyof ProductInput>(field: K, value: ProductInput[K]) => setValues((current) => ({ ...current, [field]: value }));
-  const submit = (event: FormEvent) => { event.preventDefault(); onSave({ ...values, name: values.name.trim(), code: values.code.trim(), imageUrl: values.imageUrl?.trim() || undefined }); };
+  const submit = async (event: FormEvent) => { event.preventDefault(); await onSave({ ...values, name: values.name.trim(), code: values.code.trim(), imageUrl: values.imageUrl?.trim() || undefined }); };
 
   return <form onSubmit={submit} className="mt-5 space-y-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
     <h2 className="text-xl font-black text-slate-900">{product ? "Editar produto" : "Novo produto"}</h2>
