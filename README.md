@@ -1,22 +1,36 @@
-# Qual o Código?
+# Códigos Rissul
 
-Consulta rápida de códigos de balança para o açougue. A busca funciona conforme o funcionário digita e mostra código, tara, câmara e foto do produto.
+Ferramenta mobile-first para consultar e manter códigos de produtos pesados na balança. A consulta pública está em `/`; o cadastro administrativo está em `/admin`.
 
-## Desenvolvimento local
+## Tecnologias
+
+Next.js, TypeScript, Tailwind CSS e Supabase (PostgreSQL + Storage). O Supabase é a única fonte dos produtos; o catálogo não usa `localStorage`.
+
+## Executar localmente
 
 ```bash
+npm install
+copy .env.example .env.local
 npm run dev
 ```
 
-Sem configuração adicional, o sistema usa dados de exemplo e salva cadastros somente neste navegador.
+Preencha `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` no `.env.local`. Encontre ambos em **Project Settings → API** do Supabase. Nunca use `service_role` no navegador.
 
-## Ativar o Supabase
+## Configurar Supabase
 
-1. Crie um projeto no [Supabase](https://supabase.com).
-2. No **SQL Editor**, execute o conteúdo de `supabase/schema.sql`.
-3. Copie `.env.example` para `.env.local` e preencha a URL e a chave anônima do projeto.
-4. Reinicie o servidor de desenvolvimento.
+1. Abra **SQL Editor → New query**.
+2. Execute [supabase/schema.sql](supabase/schema.sql).
+3. O script cria/atualiza tabela, índices, bucket `product-images` (JPEG, PNG, WebP, até 5 MB) e RLS do MVP.
 
-Com as variáveis preenchidas, todos os aparelhos passam a consultar o mesmo catálogo. Para publicar na Vercel, adicione as mesmas variáveis em **Settings → Environment Variables** antes do deploy.
+As políticas atuais permitem gerenciamento com a chave pública. Antes de abrir `/admin` a usuários não confiáveis, implemente Supabase Auth e restrinja as políticas de escrita.
 
-> No MVP não há login: qualquer pessoa que abrir o sistema pode alterar os produtos. Quando o uso estiver consolidado, a próxima evolução é proteger o cadastro com autenticação.
+## Vercel
+
+Importe o repositório GitHub e, em **Settings → Environment Variables**, cadastre as duas variáveis `NEXT_PUBLIC_SUPABASE_*` para Production, Preview e Development. Sem elas, a aplicação mostra erro de configuração em vez de gravar dados isolados por aparelho.
+
+## Validar
+
+```bash
+npm run lint
+npm run build
+```

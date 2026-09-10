@@ -1,4 +1,4 @@
-export type ChamberCode = "D1" | "D2" | "D3" | "D4" | "E1" | "E2" | "E3" | "E4"| "E5"| "Rômulo";
+export type ChamberCode = "D1" | "D2" | "D3" | "D4" | "E1" | "E2" | "E3" | "E4" | "E5" | "Rômulo";
 
 export interface Product {
   id: string;
@@ -7,6 +7,9 @@ export interface Product {
   tare: number;
   chamber: ChamberCode;
   imageUrl?: string;
+  searchTerms?: string[];
+  category?: string | null;
+  notes?: string | null;
 }
 
 export type ProductInput = Omit<Product, "id">;
