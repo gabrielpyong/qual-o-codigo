@@ -13,7 +13,11 @@ alter table public.products add column if not exists notes text;
 alter table public.products add column if not exists updated_at timestamptz not null default now();
 do $$ begin
   if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'products' and column_name = 'chamber') then
+    execute 'alter table public.products alter column chamber drop not null';
     execute 'update public.products set chamber_location = chamber where chamber_location is null and chamber is not null';
+  end if;
+  if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'products' and column_name = 'tare') then
+    execute 'alter table public.products alter column tare drop not null';
   end if;
   if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'products' and column_name = 'image_url') then
     execute 'update public.products set photo_url = image_url where photo_url is null and image_url is not null';
