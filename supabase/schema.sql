@@ -4,7 +4,7 @@ create table if not exists public.products (
   name text not null,
   code text not null,
   tare numeric not null check (tare >= 0),
-  chamber text not null check (chamber in ('D1', 'D2', 'D3', 'D4', 'E1', 'E2', 'E3', 'E4')),
+  chamber text not null check (chamber in ('D1', 'D2', 'D3', 'D4', 'E1', 'E2', 'E3', 'E4', 'E5')),
   image_url text,
   created_at timestamptz not null default now()
 );
