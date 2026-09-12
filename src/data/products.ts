@@ -9,5 +9,5 @@ export const products: Product[] = [
   { id: "pernil", name: "Pernil Suíno", code: "1817", tare: 14, chamber: "E3" },
   { id: "Agulha C/ Osso", name: "Agulha", code: "191", tare: 16, chamber: "D4" },
   { id: "Costela", name: "Costela Bovina", code: "225", tare: 10, chamber: "D3" },
-  { id: "frango", name: "Frango", code: "7599", tare: 20, chamber: "E4" },
+  { id: "frango", name: "Frango", code: "7599", tare: 20, chamber: "E5" },
 ];
